@@ -26,7 +26,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'bkj5m=jjnaegy!j43rl(g5kc!=910_
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['https://shrouded-journey-49322.herokuapp.com/', '127.0.0.1']
 
 
 # Application definition
