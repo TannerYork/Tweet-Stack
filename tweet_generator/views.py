@@ -1,3 +1,8 @@
-from django.shortcuts import render
+from django.http import HttpResponse, Http404
+from django.shortcuts import get_object_or_404, render
+from django.views.generic import TemplateView
 
-# Create your views here.
+class GeneratorOptions(TemplateView):
+    template_name = "index.html"
+
+

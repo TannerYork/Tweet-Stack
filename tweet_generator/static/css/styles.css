@@ -1,0 +1,38 @@
+html, body, .content {
+    height: 100%;
+    font-family: "Arial Black", Helvetica, sans-serif;
+}
+
+.bg-twitter {
+    background-color: rgb(21, 32, 43);
+}
+
+.btn-twitter {
+    color: white !important;
+    background-color: rgb(29, 161, 242);
+    cursor: pointer;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn:hover {
+    color: white;
+    position: relative;
+    top: 1px;
+    left: 1px;
+}
+
+.btn-disabled {
+    color: rgb(203, 203, 203) !important;
+    background-color: rgb(21, 117, 177);
+}
+
+.btn-disabled:hover {
+    cursor: default;
+    color: rgb(203, 203, 203) !important;
+    position: relative;
+    top: 0px;
+    left: 0px;
+}
