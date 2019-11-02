@@ -1,0 +1,9 @@
+# Ignore all pycache files
+*/__pycache__
+
+# Ignore database file
+db.sqlite3
+
+# Ignore development setup tools
+.vscode
+env/
