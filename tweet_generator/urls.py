@@ -1,5 +1,5 @@
 from django.urls import path
-from tweet_generator.views import IndexPage, Generators, add_generator, generator_display
+from tweet_generator.views import IndexPage, Generators, generator_display
 
 app_name = 'tweet_generator'
 urlpatterns = [
