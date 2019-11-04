@@ -1,9 +1,11 @@
 from django.urls import path
-from tweet_generator.views import IndexPage, Generators
+from tweet_generator.views import IndexPage, Generators, CreateGenerator, generator_display
 
 app_name = 'tweet_generator'
 urlpatterns = [
     path('', IndexPage.as_view(), name='index'),
-    path('generators/', Generators.as_view(), name="generators")
+    path('generators/', Generators.as_view(), name="generators"),
+    path('generators/new', CreateGenerator.as_view(), name="create_generator"),
+    path('generators/display', generator_display, name="generator_display")
 ]
 
