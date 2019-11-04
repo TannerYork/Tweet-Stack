@@ -1,4 +1,4 @@
-html, body, .content {
+html, body, .content, .container {
     height: 100%;
     font-family: "Arial Black", Helvetica, sans-serif;
 }
@@ -66,4 +66,6 @@ html, body, .content {
 .generator-item-empty:hover {
     color: rgb(203, 203, 203) !important;
     background-color: rgb(21, 32, 43) !important;
+    cursor: default;
 }
+

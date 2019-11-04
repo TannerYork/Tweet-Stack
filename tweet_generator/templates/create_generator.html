@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container d-flex flex-column align-items-center" style="color: white; margin-top: 56px;">
+        <h1 class="text-align-center" style="margin-top: 40px; font-size: 50px;">Create Generator</h1>
+        <h5 class="w-50" style="text-align: center; font-size: 30px; margin-top: 20px; height: 100px;">The chosen file MUST be in the format of each line being a word, num pair (word:368)</h5>
+        <form class="form d-flex flex-column w-50" style="font-size: 30px; margin-top: 60px;" action="{% url 'tweet_generator:add_generator' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group w-50">
+                <input class="" type="file" accept=".txt" name="file" id="file" required>
+            </div>
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <input class="form-control w-50" style="margin-right: 0;" type="text" name="name" id="name" required>
+            </div>
+            <div class="form-group d-flex justify-content-center">
+                <button 
+                class="btn btn-twitter w-50" 
+                style="height: 60px; font-size: 30px; pointer-events: none;" 
+                type="submit" 
+                value="Create">
+                Upload
+                </button>
+            </div>
+        </form>
+        {% if error_message %}
+            <p>{{error_message}}</p>
+        {% endif %}
+    </div>
+{% endblock %}
