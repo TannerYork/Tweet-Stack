@@ -32,6 +32,7 @@ ALLOWED_HOSTS = ['shrouded-journey-49322.herokuapp.com', '0.0.0.0']
 # Application definition
 
 INSTALLED_APPS = [
+    'tweeter',
     'tweet_generator',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -57,7 +58,12 @@ ROOT_URLCONF = 'tweeter.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
+            # Always use forward slashes, even on Windows.
+            # Don't forget to use absolute paths, not relative paths.
+            os.path.join(BASE_DIR, 'templates').replace('\\', '/'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
