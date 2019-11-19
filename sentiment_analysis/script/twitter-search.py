@@ -5,7 +5,6 @@ import tweepy
 from tensorflow import keras
 import tensorflow_hub as hub
 import nltk
-from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize 
 import preprocessor as p
 import re
@@ -21,6 +20,9 @@ AUTH = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 AUTH.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 API = tweepy.API(AUTH)
 
+# Setup sentiment model
+MODEL = keras.models.load_model('./tweet_sa_model.h5', custom_objects={'KerasLayer': hub.KerasLayer})
+
 def analyze_query(query):
     """
     A function for taking in users search query and returning sentiment data based on the query
@@ -30,7 +32,11 @@ def analyze_query(query):
             Data: An object that contains the overall sentiment score, 10 of the 
                 tweets recived form the query, and those 10 tweets sentiment score
     """
-    pass
+    tweets = API.Cusor(API.search, q=query)
+    if len(tweets) > 0: 
+        processed_tweets = preprocess_tweets(tweets)
+        sentiment = sum(MODEL.predict(tweet) for tweet in processed_tweets)/len(processed_tweets)
+    
 
 def preprocess_tweets(tweets):
     """
@@ -41,4 +47,9 @@ def preprocess_tweets(tweets):
             processed_tweets: a list of tweets' text that is lowercased, tokenized, 
                             and has all the special characters removed
     """
-    pass
+    proccessed_tweets = []
+    for text in tweets:
+        new_text = p.clean(text)
+        new_text = re.sub(r'@\S+|https?:\S+|http?:\S|[^A-Za-z0-9]+', ' ', new_text.lower()).strip()
+        proccessed_tweets.append(' '.join(new_text))
+    return proccessed_tweets
