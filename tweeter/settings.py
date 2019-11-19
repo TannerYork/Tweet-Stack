@@ -84,8 +84,10 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'POSTGRES_DATABASE_NAME', # CHANGE TO YOUR DATABASE NAME
+        'USER': 'POSTGRESS_DATABASE_USERNAME', # CHANGE TO YOUR DATABASES OWNER USERNAME
+        'PASSWORD': 'POSTGRESS_DATABASE_PASSWORD', # CHANGE TO YOUR DATABASES PASSWORD
     }
 }
 
