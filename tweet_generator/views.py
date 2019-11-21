@@ -1,6 +1,6 @@
 from django.http import HttpResponse, Http404
 from django.shortcuts import get_object_or_404, render, redirect
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, ListView
 from django.forms import Form
 
 from tweet_generator.models import MarkovChain
@@ -11,8 +11,19 @@ import re
 class IndexPage(TemplateView):
     template_name = "tweeter/index.html"
 
-class Generators(TemplateView):
+class Generators(ListView):
+    model = MarkovChain
     template_name = 'tweet_generator/generators.html'
+    queryset = MarkovChain.objects.all()
+    context_object_name = 'chain'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        chains = MarkovChain.objects.all()
+        context['col_one'] = [chains[index] if index < len(chains) else None for index in range(0, 4)]
+        context['col_two'] = [chains[index] if index < len(chains) else None for index in range(5, 9)]
+        context['col_three'] = [chains[index] if index < len(chains) else None for index in range(10, 14)]
+        return context
 
 class CreateGenerator(TemplateView):
     template_name = 'tweet_generator/create_generator.html'
@@ -22,8 +33,8 @@ def add_generator(request):
     if request.method == 'POST':
         generator_name = request.POST['name']
         generator_file = request.FILES['file']
-        if MarkovChain.objects.count() < 30 and generator_name and generator_file \
-            and MarkovChain.objects.get(name=generator_name) == None:
+        if MarkovChain.objects.count() < 15 and generator_name and generator_file \
+            and MarkovChain.objects.filter(name=generator_name).count() == 0:
             # Get tokens from the uploded file
             tokens = generator_file.read().decode('ascii').split()
 
@@ -49,14 +60,21 @@ def add_generator(request):
                 elif next_word in data[word]:
                     data[word][next_word] += 1
 
-            generator = MarkovChain.objects.create(name=generator_name, data=data)
-            # generator.save()
+            dictogram = {}
+            for word in words_list:
+                if word in dictogram:
+                    dictogram[word] += 1
+                else:
+                    dictogram[word] = 1
+
+            generator = MarkovChain.objects.create(name=generator_name, data=data, dictogram=dictogram)
+            generator.save()
             return redirect('/generators/')
-        elif MarkovChain.objects.count() > 30:
+        elif MarkovChain.objects.count() > 15:
             return render(request, 'tweet_generator/create_generator.html', { 
                 'error_message': f"Sorry, the mas number of generators has been \
                  reached {MarkovChain.objects.count()}" })
-        elif MarkovChain.objects.get(name=generator_name):
+        elif MarkovChain.objects.filter(name=generator_name).count() > 0:
             return render(request, 'tweet_generator/create_generator.html', { 
                 'error_message': f"Sorry, the name given already exist" })
         else:
@@ -66,10 +84,7 @@ def add_generator(request):
         return render(request, 'tweet_generator/create_generator.html', { 
                 'error_message': "Sorry, a post request was not recieved" })
 
-def generator_display(request):
-    with open('tweet_generator/static/data/processed_meditations.txt') as file:
-        words_list = file.read().split()
-        print(words_list[:5])
-        meditations_markov_chain = DictoChain(words_list)
-        sentence = meditations_markov_chain.walk(10)
-    return render(request, 'tweet_generator/generator_display.html', {'sentence': sentence})
+def generator_display(request, chain_slug):
+    chain = MarkovChain.objects.get(slug=chain_slug)
+    sentence = chain.walk(10)
+    return render(request, 'tweet_generator/generator_display.html', {'chain': chain, 'sentence': sentence})

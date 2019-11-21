@@ -5,33 +5,39 @@
              style="margin-top: 56px;">
              <div class="container d-flex flex-column justify-content-around align-items-center" 
                   style="height: 100%; margin-top: 80px; margin-bottom: 80px; padding: 0;">
-               <a class="generator-item rounded-pill" href="/generators/display">Marcus Aurelius</a>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
+                  {% for item in col_one %}
+                        {% if item %}
+                              <a class="generator-item rounded-pill" href="/generators/{{ item.slug }}">{{ item.name }}</a>
+                        {% else %}
+                              <div class="generator-item generator-item-empty rounded-pill"></div>
+                        {% endif %}
+                  {% endfor %}
              </div>
        </div>
        <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
              style="margin-top: 56px;">
              <div class="container d-flex flex-column justify-content-around align-items-center" 
                   style="height: 100%; margin-top: 80px; margin-bottom: 80px; padding: 0;">
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
+                  {% for item in col_two %}
+                        {% if index < chain_list|length %}
+                              <a class="generator-item rounded-pill" href="/generators/{{ item.slug }}">{{ item.name }}</a>
+                        {% else %}
+                              <div class="generator-item generator-item-empty rounded-pill"></div>
+                        {% endif %}
+                  {% endfor %}
              </div>
        </div>
        <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
              style="margin-top: 56px;">
              <div class="container d-flex flex-column justify-content-around" 
                   style="height: 100%; margin-top: 80px; margin-bottom: 80px; padding: 0;">
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
-               <div class="generator-item generator-item-empty rounded-pill"></div>
+                  {% for item in col_three %}
+                        {% if index < chain_list|length %}
+                              <a class="generator-item rounded-pill" href="/generators/{{ item.slug }}">{{ item.name }}</a>
+                        {% else %}
+                              <div class="generator-item generator-item-empty rounded-pill"></div>
+                        {% endif %}
+                  {% endfor %}
              </div>
        </div>
     </div>

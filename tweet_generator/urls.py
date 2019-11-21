@@ -7,6 +7,6 @@ urlpatterns = [
     path('generators/', Generators.as_view(), name="generators"),
     path('generators/new', CreateGenerator.as_view(), name="create_generator"),
     path('generators/new/create', add_generator, name="add_generator"),
-    path('generators/display', generator_display, name="generator_display")
+    path('generators/<slug:chain_slug>', generator_display, name="generator_display")
 ]
 

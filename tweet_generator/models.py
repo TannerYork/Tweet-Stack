@@ -1,11 +1,14 @@
 from django.contrib.postgres.fields import JSONField
+from django.utils.text import slugify  
 from django.db import models
 import random
 
 
 class MarkovChain(models.Model):
     name = models.CharField(max_length=200)
-    data = JSONField()
+    data = JSONField(default=dict)
+    dictogram = JSONField(default=dict)
+    slug = models.CharField(max_length=200)
 
     def __str__(self):
         return self.name
@@ -27,3 +30,9 @@ class MarkovChain(models.Model):
             curr_word = self.sample(self.data[curr_word])
             sentence.append(curr_word)
         return ' '.join(sentence) + '.'
+
+    def save(self, *args, **kwargs):
+        """ Creates a URL safe slug automatically when a new chain is created. """
+        if not self.pk:
+            self.slug = slugify(self.name)
+        return super(MarkovChain, self).save(*args, **kwargs)
