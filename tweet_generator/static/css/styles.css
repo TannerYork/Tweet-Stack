@@ -26,7 +26,8 @@ html, body, .content, .container {
 
 .btn-disabled {
     color: rgb(203, 203, 203) !important;
-    background-color: rgb(21, 117, 177);
+    background-color: rgb(21, 32, 43);
+    border: 1px solid #6c757d;
 }
 
 .btn-disabled:hover {
