@@ -1,3 +1,4 @@
 from django.contrib import admin
+from tweet_generator.models import MarkovChain
 
-# Register your models here.
+admin.site.register(MarkovChain)
