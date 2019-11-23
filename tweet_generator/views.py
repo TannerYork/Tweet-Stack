@@ -36,7 +36,7 @@ def add_generator(request):
         if MarkovChain.objects.count() < 15 and generator_name and generator_file \
             and MarkovChain.objects.filter(name=generator_name).count() == 0:
             # Get tokens from the uploded file
-            tokens = generator_file.read().decode('ascii').split()
+            tokens = generator_file.read().decode().split()
 
             # Create the words list from temporary file
             words_list = [re.sub(r'([^a-z])', ' ', token.lower()) for token in tokens if token != '  ']
