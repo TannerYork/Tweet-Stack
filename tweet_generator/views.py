@@ -33,41 +33,20 @@ def add_generator(request):
     if request.method == 'POST':
         generator_name = request.POST['name']
         generator_file = request.FILES['file']
+        generator_order = request.POST['order']
         if MarkovChain.objects.count() < 15 and generator_name and generator_file \
             and MarkovChain.objects.filter(name=generator_name).count() == 0:
             # Get tokens from the uploded file
             tokens = generator_file.read().decode().split()
 
             # Create the words list from temporary file
-            words_list = [re.sub(r'([^a-z])', ' ', token.lower()) for token in tokens if token != '  ']
+            words_list = [re.sub(r'([^a-z|\'|\.])', ' ', token.lower()) for token in tokens]
 
             # Create markov chain from words list
-            data = {}
-            for index, word in enumerate(words_list):
-                # Check if its at the last word of the list
-                if index+1 < len(words_list):
-                    next_word = words_list[index+1]
-                else:
-                    next_word = None
+            markov_chain = DictoChain(words_list, generator_order)
 
-                # If not add the next word to the chain
-                if next_word is None:
-                    pass
-                elif word not in data:
-                    data[word] = {next_word:1}
-                elif next_word not in data[word]:
-                    data[word][next_word] = 1
-                elif next_word in data[word]:
-                    data[word][next_word] += 1
-
-            dictogram = {}
-            for word in words_list:
-                if word in dictogram:
-                    dictogram[word] += 1
-                else:
-                    dictogram[word] = 1
-
-            generator = MarkovChain.objects.create(name=generator_name, data=data, dictogram=dictogram)
+            generator = MarkovChain.objects.create(name=generator_name, data=markov_chain,
+                        start_tokens=markov_chain.start_tokens, order=generator_order)
             generator.save()
             return redirect('/generators/')
         elif MarkovChain.objects.count() > 15:
@@ -86,5 +65,5 @@ def add_generator(request):
 
 def generator_display(request, chain_slug):
     chain = MarkovChain.objects.get(slug=chain_slug)
-    sentence = chain.walk(10)
+    sentence = chain.walk(30)
     return render(request, 'tweet_generator/generator_display.html', {'chain': chain, 'sentence': sentence})

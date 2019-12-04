@@ -2,12 +2,14 @@ from django.contrib.postgres.fields import JSONField
 from django.utils.text import slugify  
 from django.db import models
 import random
+import re
 
 
 class MarkovChain(models.Model):
     name = models.CharField(max_length=200)
     data = JSONField(default=dict)
-    dictogram = JSONField(default=dict)
+    start_tokens = JSONField(default=dict)
+    order = models.IntegerField(default=1)
     slug = models.CharField(max_length=200)
 
     def __str__(self):
@@ -24,12 +26,15 @@ class MarkovChain(models.Model):
 
     def walk(self, count):
         """Perform a random walk on the chain as long as the count"""
-        curr_word = self.sample(self.dictogram)
-        sentence = [curr_word]
-        for i in range(1, count):
-            curr_word = self.sample(self.data[curr_word])
+        curr_words = self.sample(self.start_tokens)
+        sentence = [curr_words]
+        for _ in range(1, count):
+            if None in self.data[curr_words]:
+                return ' '.join(sentence)
+            curr_words = self.sample(self.data[curr_words])
+            curr_word = curr_words.split(' ')[self.order-1]
             sentence.append(curr_word)
-        return ' '.join(sentence) + '.'
+        return ' '.join(sentence)
 
     def save(self, *args, **kwargs):
         """ Creates a URL safe slug automatically when a new chain is created. """

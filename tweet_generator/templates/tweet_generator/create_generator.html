@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
-    <div class="container d-flex flex-column align-items-center" style="color: white; margin-top: 56px;">
+    <div class="container d-flex flex-column align-items-center" style="color: white; margin-top: 56px; overflow: scroll;">
         <h1 class="text-align-center" style="margin-top: 40px; font-size: 50px;">Create Generator</h1>
-        <h5 class="w-50" style="text-align: center; font-size: 25px; margin-top: 20px;">The chosen corpus needs to be in a .txt file and, while the application will remove all special characters, the more the text is proccessed beforehand the better the generator will be.</h5>
+        <h5 class="w-50" style="text-align: center; font-size: 25px; margin-top: 20px;">The chosen corpus needs to be in a .txt file and no preprocessing is needed.</h5>
         <form class="form d-flex flex-column w-50" style="font-size: 30px; margin-top: 60px;" action="{% url 'tweet_generator:add_generator' %}" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group w-50">
@@ -11,6 +11,10 @@
             <div class="form-group">
                 <label for="name">Name:</label>
                 <input class="form-control w-50" style="margin-right: 0;" type="text" name="name" id="name" required>
+            </div>
+            <div class="form-group">
+                <label for="order">Order:</label>
+                <input class="form-control w-50" style="margin-right: 0;" type="number" name="order" id="order" min="1" max="4" required>
             </div>
             <div class="form-group d-flex justify-content-center">
                 <button 
