@@ -19,7 +19,7 @@
              <div class="container d-flex flex-column justify-content-around align-items-center" 
                   style="height: 100%; margin-top: 80px; margin-bottom: 80px; padding: 0;">
                   {% for item in col_two %}
-                        {% if index < chain_list|length %}
+                        {% if item %}
                               <a class="generator-item rounded-pill" href="/generators/{{ item.slug }}">{{ item.name }}</a>
                         {% else %}
                               <div class="generator-item generator-item-empty rounded-pill"></div>
@@ -32,7 +32,7 @@
              <div class="container d-flex flex-column justify-content-around" 
                   style="height: 100%; margin-top: 80px; margin-bottom: 80px; padding: 0;">
                   {% for item in col_three %}
-                        {% if index < chain_list|length %}
+                        {% if item %}
                               <a class="generator-item rounded-pill" href="/generators/{{ item.slug }}">{{ item.name }}</a>
                         {% else %}
                               <div class="generator-item generator-item-empty rounded-pill"></div>

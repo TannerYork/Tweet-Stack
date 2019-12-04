@@ -21,8 +21,8 @@ class Generators(ListView):
         context = super().get_context_data(**kwargs)
         chains = MarkovChain.objects.all()
         context['col_one'] = [chains[index] if index < len(chains) else None for index in range(0, 4)]
-        context['col_two'] = [chains[index] if index < len(chains) else None for index in range(5, 9)]
-        context['col_three'] = [chains[index] if index < len(chains) else None for index in range(10, 14)]
+        context['col_two'] = [chains[index] if index < len(chains) else None for index in range(4, 8)]
+        context['col_three'] = [chains[index] if index < len(chains) else None for index in range(8, 12)]
         return context
 
 class CreateGenerator(TemplateView):
@@ -34,7 +34,7 @@ def add_generator(request):
         generator_name = request.POST['name']
         generator_file = request.FILES['file']
         generator_order = request.POST['order']
-        if MarkovChain.objects.count() < 15 and generator_name and generator_file \
+        if MarkovChain.objects.count() < 12 and generator_name and generator_file \
             and MarkovChain.objects.filter(name=generator_name).count() == 0:
             # Get tokens from the uploded file
             tokens = generator_file.read().decode().split()
@@ -49,10 +49,10 @@ def add_generator(request):
                         start_tokens=markov_chain.start_tokens, order=generator_order)
             generator.save()
             return redirect('/generators/')
-        elif MarkovChain.objects.count() > 15:
+        elif MarkovChain.objects.count() >= 12:
             return render(request, 'tweet_generator/create_generator.html', { 
                 'error_message': f"Sorry, the mas number of generators has been \
-                 reached {MarkovChain.objects.count()}" })
+                 reached. {MarkovChain.objects.count()} is the max." })
         elif MarkovChain.objects.filter(name=generator_name).count() > 0:
             return render(request, 'tweet_generator/create_generator.html', { 
                 'error_message': f"Sorry, the name given already exist" })
