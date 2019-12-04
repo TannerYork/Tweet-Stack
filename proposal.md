@@ -1,0 +1,1 @@
+I'm creating a web application that allows users to create tweet generators and perform sentiment analysis on already existing tweets. This is useful because it alows users to have a fun, informative experence through analyzing and createing tweets.
