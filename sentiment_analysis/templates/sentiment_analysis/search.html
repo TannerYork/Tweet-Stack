@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="container d-flex flex-column align-items-center" style="color: white; margin-top: 56px; overflow: scroll;">
+    <form class="form d-flex flex-column" style="font-size: 30px; margin-top: 20%;" action="{% url 'sentiment_analysis:sentiment-view' %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group w-50">
+            <input id="search_input" class="rounded-pill" type="text" placeholder="@User, #Hashtag, Keyword" name="query" autocomplete="off" required>
+        </div>
+        <div class="form-group d-flex justify-content-center">
+            <button id="search_button" class="btn btn-twitter rounded-pill w-50" type="submit">Search</button>
+        </div>
+        {% if error %}
+            <p>{{error}}</p>
+        {% endif %}
+    </form>
+</div>
+{% endblock %}

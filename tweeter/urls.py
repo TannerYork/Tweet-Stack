@@ -18,5 +18,6 @@ from django.urls import include, path
 
 urlpatterns = [
     path('', include('tweet_generator.urls')),
+    path('', include('sentiment_analysis.urls')),
     path('admin/', admin.site.urls),
 ]

@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="content row" style="padding: 10px; color: white; padding: 20px;">
+    <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+         style="margin-top: 56px;">
+         <div class="container d-flex flex-column justify-content-around align-items-center" 
+              style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
+                {% for tweet in preview_tweets %}
+                    <div>{{tweet.0}}</div>
+                {% endfor %} 
+         </div>
+   </div>
+   <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+         style="margin-top: 56px;">
+         <div class="container d-flex flex-column justify-content-around align-items-center" 
+              style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
+              <h2>{{sentiment.0.0}}</div>
+         </div>
+   </div>
+   <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+         style="margin-top: 56px;">
+         <div class="container d-flex flex-column justify-content-around" 
+              style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
+              <h2>{{sentiment}}</div>
+         </div>
+   </div>
+</div>
+{% endblock %}

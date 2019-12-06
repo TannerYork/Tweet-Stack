@@ -10,3 +10,4 @@ db.sqlite3
 # Ignore development setup tools
 .vscode
 env/
+.env

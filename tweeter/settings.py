@@ -34,6 +34,7 @@ ALLOWED_HOSTS = ['tweeter-v2.herokuapp.com', '0.0.0.0']
 INSTALLED_APPS = [
     'tweeter',
     'tweet_generator',
+    'sentiment_analysis',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

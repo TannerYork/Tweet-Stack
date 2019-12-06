@@ -70,3 +70,20 @@ html, body, .content, .container {
     cursor: default;
 }
 
+#search_input {
+    height: 100px;
+    width: 600px;
+    padding: 10px;
+
+    background-color: rgb(21, 32, 43);
+    color: white;
+    font-size: 125%;
+    text-align: center;
+}
+
+#search_button {
+    height: 60px;
+    width: 400px;
+
+    font-size: 100%;
+}

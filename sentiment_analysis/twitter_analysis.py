@@ -20,10 +20,10 @@ AUTH = tweepy.OAuthHandler(CONSUMER_KEY, CONSUMER_SECRET)
 AUTH.set_access_token(ACCESS_TOKEN, ACCESS_TOKEN_SECRET)
 API = tweepy.API(AUTH)
 
-class SentimentAnalysis():
+class TwitterAnalysis():
     def __init__(self):
         """A class for recieving and processing user queries"""
-        self.model = keras.models.load_model('./tweet_sa_model.h5', custom_objects={'KerasLayer': hub.KerasLayer})
+        self.model = keras.models.load_model('sentiment_analysis/tweet-sentiment.h5', custom_objects={'KerasLayer': hub.KerasLayer})
         self.api = API
 
     def analyze_query(self, query):
@@ -35,11 +35,18 @@ class SentimentAnalysis():
                 Data: An object that contains the overall sentiment score, 10 of the 
                     tweets recived form the query, and those 10 tweets sentiment score
         """
-        tweets = self.api.Cusor(self.api.search, q=query)
-        if len(tweets) > 0: 
-            processed_tweets = self.preprocess_tweets(tweets)
-            sentiment = sum(self.model.predict(tweet) for tweet in processed_tweets)/len(processed_tweets)
-        
+        tweets = tweepy.Cursor(self.api.search,q="#" + query + " -filter:retweets", rpp=5, lang="en").items(100)
+        tweets = [tweet.text for tweet in tweets]
+        if len(tweets) < 6:
+            return
+        processed_tweets = self.preprocess_tweets(tweets)
+        sentiment = sum(self.model.predict([tweet]) for tweet in processed_tweets)/len(processed_tweets)
+        preview_tweets = []
+        for index in range(0, 6):
+            tweet = tweets[index]
+            tweet_sentiment = self.model.predict([processed_tweets[index]])
+            preview_tweets.append((tweet, tweet_sentiment))
+        return {'sentiment': sentiment, 'preview_tweets': preview_tweets}
 
     def preprocess_tweets(self, tweets):
         """
