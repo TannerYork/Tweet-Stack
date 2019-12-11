@@ -15,7 +15,7 @@ pip3 install -r requirements.txt
 ## Usage
 
 ### Application
-Go to the app [here](https://shrouded-journey-49322.herokuapp.com/)
+Go to the app [here](https://tweeter-v2.herokuapp.com/)
 
 ### Code
 1. Follow installation above ^<br>
