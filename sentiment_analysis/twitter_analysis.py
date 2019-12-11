@@ -40,12 +40,24 @@ class TwitterAnalysis():
         if len(tweets) < 6:
             return
         processed_tweets = self.preprocess_tweets(tweets)
-        sentiment = sum(self.model.predict([tweet]) for tweet in processed_tweets)/len(processed_tweets)
         preview_tweets = []
         for index in range(0, 6):
             tweet = tweets[index]
-            tweet_sentiment = self.model.predict([processed_tweets[index]])
+            tweet_sentiment = (self.model.predict([tweet])[0][0])
+            if tweet_sentiment > .60: tweet_sentiment = 1
+            elif tweet_sentiment < .40: tweet_sentiment = -1
+            else: tweet_sentiment = 0
             preview_tweets.append((tweet, tweet_sentiment))
+
+        postitive = 0
+        neutral = 0
+        negative = 0
+        for tweet in processed_tweets:
+            sentiment = self.model.predict([tweet])[0][0]
+            if sentiment > .60: postitive += 1
+            elif sentiment < .40: negative += 1
+            else: neutral += 1
+        sentiment = {'percent_pos': postitive, 'percent_neu': neutral, 'precent_neg': negative}
         return {'sentiment': sentiment, 'preview_tweets': preview_tweets}
 
     def preprocess_tweets(self, tweets):
@@ -60,6 +72,6 @@ class TwitterAnalysis():
         proccessed_tweets = []
         for text in tweets:
             new_text = p.clean(text)
-            new_text = re.sub(r'@\S+|https?:\S+|http?:\S|[^A-Za-z0-9]+', ' ', new_text.lower()).strip()
-            proccessed_tweets.append(' '.join(new_text))
+            new_text = ' '.join(re.sub("(@[A-Za-z0-9]+)|([^0-9A-Za-z \t])|(\w+:\/\/\S+)", " ", text).split())
+            proccessed_tweets.append(new_text)
         return proccessed_tweets

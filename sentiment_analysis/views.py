@@ -9,15 +9,16 @@ class SearchView(TemplateView):
 
 def sentiment_view(request):
     if request.method != 'POST':
-        return render('sentiment_analysis/search.html', {'error': 'Error getting context query data'})
+        return render(request, 'sentiment_analysis/search.html', {'error': 'Error getting context query data'})
     
     query = request.POST['query']
     if query is None:
-        return render('sentiment_analysis/search.html', {'error': 'Error getting query'})
+        return render(request, 'sentiment_analysis/search.html', {'error': 'Error getting query'})
     
     sentiment_data = analyizer.analyze_query(query)
     if sentiment_data is None:
-        return render('sentiment_analysis/search.html', {'error': 'Error getting query sentiment data'})
+        context = {'error': 'Error getting query sentiment data'}
+        return render(request, 'sentiment_analysis/search.html', context)
     
     context = {'preview_tweets': sentiment_data['preview_tweets'], 'sentiment': sentiment_data['sentiment']}
     return render(request, 'sentiment_analysis/sentiment.html', context)

@@ -1,28 +1,39 @@
 {% extends 'base.html' %}
 {% block content %}
 <div class="content row" style="padding: 10px; color: white; padding: 20px;">
-    <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+    <div class="col-6 bg-twitter d-flex flex-column justify-content-around align-items-center" 
          style="margin-top: 56px;">
          <div class="container d-flex flex-column justify-content-around align-items-center" 
               style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
                 {% for tweet in preview_tweets %}
-                    <div>{{tweet.0}}</div>
+                    <div class="d-flex flex-row justify-content-center" style="padding: 10px">
+                         <p style="width: 50%">{{tweet.0}}</p>
+                         {% if tweet.1 is 1 %}
+                              <div id="positive-sentiment" class="rounded-circle bg-success" style="width: 50px; height: 50px;"></div>
+                         {% elif tweet.1 is -1 %}
+                              <div id="negative-sentiment" class="rounded-circle bg-danger" style="width: 50px; height: 50px;"></div>
+                         {% else %}
+                              <div id="neutral-sentiment" class="rounded-circle bg-secondary" style="width: 50px; height: 50px;"></div>
+                         {% endif %}
+                    </div>
                 {% endfor %} 
          </div>
    </div>
-   <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+   <div class="col-6 bg-twitter d-flex flex-column justify-content-around align-items-center" 
          style="margin-top: 56px;">
          <div class="container d-flex flex-column justify-content-around align-items-center" 
               style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
-              <h2>{{sentiment.0.0}}</div>
+              <h1>Positive: {{sentiment.percent_pos}}</h1>
+              <h1>Neutral: {{sentiment.percent_neu}}</h1>
+              <h1>Negative: {{sentiment.precent_neg}}</h1>
          </div>
    </div>
-   <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
+   <!-- <div class="col-4 bg-twitter d-flex flex-column justify-content-around align-items-center" 
          style="margin-top: 56px;">
          <div class="container d-flex flex-column justify-content-around" 
               style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
               <h2>{{sentiment}}</div>
          </div>
-   </div>
+   </div> -->
 </div>
 {% endblock %}
