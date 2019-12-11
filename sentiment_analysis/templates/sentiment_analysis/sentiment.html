@@ -6,7 +6,7 @@
          <div class="container d-flex flex-column justify-content-around align-items-center" 
               style="height: 100%; margin-top: 60px; margin-bottom: 60px; padding: 0;">
                 {% for tweet in preview_tweets %}
-                    <div class="d-flex flex-row justify-content-center" style="padding: 10px">
+                    <div class="d-flex flex-row justify-content-center align-items-center" style="padding: 10px">
                          <p style="width: 50%">{{tweet.0}}</p>
                          {% if tweet.1 is 1 %}
                               <div id="positive-sentiment" class="rounded-circle bg-success" style="width: 50px; height: 50px;"></div>
