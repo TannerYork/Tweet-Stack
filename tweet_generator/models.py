@@ -4,6 +4,8 @@ from django.db import models
 import random
 import re
 
+STOP_TOKEN = '*STOP'
+START_TOKEN = '*START'
 
 class MarkovChain(models.Model):
     name = models.CharField(max_length=200)
@@ -27,13 +29,12 @@ class MarkovChain(models.Model):
     def walk(self, count):
         """Perform a random walk on the chain as long as the count"""
         curr_words = self.sample(self.start_tokens)
-        sentence = [curr_words]
-        for _ in range(1, count):
-            if None in self.data[curr_words]:
-                return ' '.join(sentence)
+        sentence = [re.sub('\*START', '', curr_words).strip()]
+        while STOP_TOKEN not in curr_words:
             curr_words = self.sample(self.data[curr_words])
             curr_word = curr_words.split(' ')[self.order-1]
             sentence.append(curr_word)
+        sentence.pop()
         return ' '.join(sentence)
 
     def save(self, *args, **kwargs):

@@ -2,42 +2,40 @@
 
 from __future__ import division, print_function  # Python 2 and 3 compatibility
 from tweet_generator.static.script.dicto_chain.dictogram.dictogram import Dictogram
+from tweet_generator.static.script.dicto_chain.circular_buffer.circular_buffer import CircularBuffer
 import random
 import math
+import re
 
+START_TOKEN = '*START'
+STOP_TOKEN = '*STOP'
 
-class DictoChain(dict):
+class DictovChain(dict):
     """Markov Chain implemented as a subclass of the dictionary type"""
 
-    def __init__(self, words_list=None, order=2):
+    def __init__(self, words_list, order=2):
         """Initialize the markov chain as a new dict with a list of words"""
-        super(DictoChain, self).__init__()
+        super(DictovChain, self).__init__()
         self.start_tokens = Dictogram()
         self.order = int(order)
+        
+        circular_buffer = CircularBuffer(int(order))
+        prev_words = None
+        for word in words_list:
+            prev_words = list(circular_buffer)
+            circular_buffer.enqueue(word)
+            if circular_buffer[0] is not None:
+                if prev_words[0] is None: prev_words[0] = START_TOKEN
+                self.add_count(' '.join(circular_buffer), ' '.join(prev_words))
 
-        for index, word in enumerate(words_list):
-            if index+self.order < len(words_list):
-                words = words_list[index:index+self.order]
-                next_words = words_list[index+(self.order-1):index+((2*self.order)-1)]
-                self.add_count(words, next_words)
-            else:
-                words = words_list[index:index+self.order]
-                self.add_count(words)
-
-    def add_count(self, words, next_words=None, count=1):
+    def add_count(self, words, prev_words, count=1):
         """Add next word to words chain by the count amount"""
-        words = ' '.join(words)
-        if next_words is not None:
-            next_words = ' '.join(next_words)
-
-        if words not in self:
-            self[words] = Dictogram([next_words])
-        elif next_words is not None:
-            self[words].add_count(next_words, count)
-
-        if '.' in words and next_words is not None and '.' not in next_words:
-            self.start_tokens.add_count(next_words)
-
+        if prev_words not in self:
+            self[prev_words] = Dictogram([words])
+        else:
+            self[prev_words].add_count(words, count)
+        if START_TOKEN in prev_words:
+            self.start_tokens.add_count(words)
 
     def sample(self, dictogram):
         """Returns a random word from the histogram based on the probabilistic distribution of each word"""
@@ -51,18 +49,18 @@ class DictoChain(dict):
     def walk(self, count):
         """Perform a random walk on the chain as long as the count"""
         curr_words = self.sample(self.start_tokens)
-        sentence = [curr_words]
+        sentence = list(re.sub(START_TOKEN, '', curr_words).strip())
         for _ in range(1, count):
-            if None in self.data[curr_words]:
+            if curr_words not in self:
                 return ' '.join(sentence)
-            curr_words = self.sample(self.data[curr_words])
-            curr_word = curr_words.split(' ')[self.order-1]
-            sentence.append(curr_word)
+            curr_words = self.sample(self[curr_words])
+            curr_word = curr_words[self.order-1]
+            sentence.append(curr_words)
         return ' '.join(sentence)
 
 if __name__ == '__main__':
-    fish_words = ['one', 'fish', 'two', 'fish.', 'red', 'fish', 'blue', 'fish', 'one', 'fish', 'two', 'fish.', 'one', 'fish', 'two', 'fish.']
-    markov_chain = DictoChain(fish_words)
+    fish_words = ['one', 'fish', 'two', 'fish', 'red', 'fish', 'blue', 'fish', 'red', 'fish', 'green', 'fish', 'two', 'fish', 'blue', 'fish']
+    markov_chain = DictovChain(fish_words)
     print(markov_chain)
     print(markov_chain.start_tokens)
     print(markov_chain.walk(20))
