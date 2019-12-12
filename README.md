@@ -15,7 +15,7 @@ pip3 install -r requirements.txt
 ## Usage
 
 ### Application
-Go to the app [here](https://shrouded-journey-49322.herokuapp.com/)
+Go to the app [here](https://tweeter-v2.herokuapp.com/)
 
 ### Code
 1. Follow installation above ^<br>
@@ -25,4 +25,4 @@ Go to the app [here](https://shrouded-journey-49322.herokuapp.com/)
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
-You can also create your own generator if there space left. Just go to the websitre and find the create generator tab
+You can also create your own generator, if there's space left. Just go to the websitre and find the create generator tab.
