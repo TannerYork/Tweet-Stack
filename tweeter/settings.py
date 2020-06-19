@@ -14,23 +14,14 @@ import os
 import dj_database_url
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
+print ('SECRET KEY', os.environ.get('DJANGO_SECRET_KEY'))
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'bkj5m=jjnaegy!j43rl(g5kc!=910_w3-%uujf#f88c_xo3bca')
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DJANGO_DEBUG', '') != 'False'
-
-ALLOWED_HOSTS = ['tweeter-v2.herokuapp.com', '0.0.0.0']
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY')
+DEBUG = os.environ.get('DJANGO_DEBUG', default=0)
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 
 # Application definition
-
 INSTALLED_APPS = [
     'tweeter',
     'tweet_generator',
@@ -83,12 +74,15 @@ WSGI_APPLICATION = 'tweeter.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': os.environ.get('DB_NAME', 'tweeter'), # CHANGE TO YOUR DATABASE NAME
-        'USER': os.environ.get('DB_USER', 'tweeter'), # CHANGE TO YOUR DATABASES OWNER USERNAME
-        'PASSWORD': os.environ.get('DB_PASS', 'tweeter password'), # CHANGE TO YOUR DATABASES PASSWORD
+        'ENGINE': 'django.db.backends.postgresql_psycopg2', 
+        'NAME': os.environ.get('POSTGRES_DB_NAME', 'db.sqlite3'), 
+        'USER': os.environ.get('POSTGRES_DB_USER', 'tweeter'), 
+        'PASSWORD': os.environ.get('POSTGRES_DB_PASS', 'tweeter'), 
+        "HOST": os.environ.get("POSTGRES_HOST", "localhost"),
+        "PORT": os.environ.get("POSTGRES_PORT", "5432")
     }
 }
 

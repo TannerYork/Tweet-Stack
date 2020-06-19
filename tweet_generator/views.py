@@ -5,6 +5,8 @@ from django.forms import Form
 
 from tweet_generator.models import MarkovChain
 from tweet_generator.static.script.dicto_chain.dicto_chain import DictovChain
+import nltk
+nltk.download('punkt')
 from nltk.tokenize import sent_tokenize
 import re
 

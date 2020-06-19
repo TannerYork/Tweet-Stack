@@ -3,10 +3,10 @@ import tweepy
 from textblob import TextBlob
 
 # Imports for tweet processing
-# from tensorflow import keras
-# import tensorflow_hub as hub
-# import nltk
-# from nltk.tokenize import word_tokenize 
+from tensorflow import keras
+import tensorflow_hub as hub
+import nltk
+from nltk.tokenize import word_tokenize 
 import preprocessor as p
 import re
 
@@ -44,34 +44,34 @@ class TwitterAnalysis():
         preview_tweets = []
         for index in range(0, 6):
             tweet = tweets[index]
-            # tweet_sentiment = (self.model.predict([tweet])[0][0])
-            tweet_sentiment = TextBlob(tweet).sentiment.polarity
+            tweet_sentiment = (self.model.predict([tweet])[0][0])
+            # tweet_sentiment = TextBlob(tweet).sentiment.polarity
             if tweet_sentiment > 0: tweet_sentiment = 1
             elif tweet_sentiment < 0: tweet_sentiment = -1
             else: tweet_sentiment = 0
             preview_tweets.append((tweet, tweet_sentiment))
 
-        postitive = 0
-        neutral = 0
-        negative = 0
-        for tweet in processed_tweets:
-            sentiment = TextBlob(tweet).sentiment.polarity
-            if sentiment > 0: postitive += 1
-            elif sentiment < 0: negative += 1
-            else: neutral += 1
-        sentiment = {'percent_pos': postitive, 'percent_neu': neutral, 'precent_neg': negative}
-        return {'sentiment': sentiment, 'preview_tweets': preview_tweets}
-
         # postitive = 0
         # neutral = 0
         # negative = 0
         # for tweet in processed_tweets:
-        #     sentiment = self.model.predict([tweet])[0][0]
-        #     if sentiment > .60: postitive += 1
-        #     elif sentiment < .40: negative += 1
+        #     sentiment = TextBlob(tweet).sentiment.polarity
+        #     if sentiment > 0: postitive += 1
+        #     elif sentiment < 0: negative += 1
         #     else: neutral += 1
         # sentiment = {'percent_pos': postitive, 'percent_neu': neutral, 'precent_neg': negative}
         # return {'sentiment': sentiment, 'preview_tweets': preview_tweets}
+
+        postitive = 0
+        neutral = 0
+        negative = 0
+        for tweet in processed_tweets:
+            sentiment = self.model.predict([tweet])[0][0]
+            if sentiment > .60: postitive += 1
+            elif sentiment < .40: negative += 1
+            else: neutral += 1
+        sentiment = {'percent_pos': postitive, 'percent_neu': neutral, 'precent_neg': negative}
+        return {'sentiment': sentiment, 'preview_tweets': preview_tweets}
 
     def preprocess_tweets(self, tweets):
         """
