@@ -1,4 +1,4 @@
-FROM tensorflow/tensorflow:2.1.0
+FROM tensorflow/tensorflow:2.2.0
 
 # Step 1: Make directory for installing dependencies
 WORKDIR /usr/src/app
