@@ -1,6 +1,5 @@
 absl-py==0.8.1
 asgiref==3.2.8
-# astor==0.8.0
 astunparse==1.6.3
 cachetools==3.1.1
 certifi==2019.9.11
@@ -38,10 +37,10 @@ six==1.12.0
 sqlparse==0.3.0
 tb-nightly==1.14.0a20190301
 tensorboard==2.2.2
-tensorboard-plugin-wit==1.6.0.post3
-tensorflow==2.0.1
+tensorboard-plugin-wit==1.7.0
+tensorflow==2.2.0
 tensorflow-estimator==2.2.0
-tensorflow-hub==0.7.0
+tensorflow-hub==0.8.0
 termcolor==1.1.0
 textblob==0.15.3
 tf-estimator-nightly==1.14.0.dev2019030115
