@@ -9,7 +9,7 @@ Tweeter is a web application for interacting with twitter in a more data driven 
 2. Create a new .env file based on the .env.example file
    - Don't change any of the postgress variables
    - If you want the sentiment analysis to work, put your twitter credentials in the last four variables
-2. Make sure docker is running and run the command `docker-compose up -r --build`
+2. Make sure docker is running and run the command `docker-compose up -d --build`
 3. Once the above command is completed, run `docker-compose exec db psql --username=tweeter`
 4. Now at the tweeter postgress shell, type in `create extension hstore;` (the ';' is required)
 5. Once you get the response "CREATE EXTENSION" back, quit the shell using `\q`
