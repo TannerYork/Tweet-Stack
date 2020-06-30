@@ -1,3 +1,6 @@
+[![Tweeter](https://circleci.com/gh/TannerYork/Tweeter.svg?style=svg)](<LINK>) <br>
+[![Tweeter](https://circleci.com/gh/TannerYork/Tweeter.svg?style=shield)](<LINK>)
+
 # Tweeter
 
 Tweeter is a web application for interacting with twitter in a more data driven way
