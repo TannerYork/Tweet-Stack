@@ -1,5 +1,6 @@
 [![Tweeter](https://circleci.com/gh/TannerYork/Tweeter.svg?style=svg)](<LINK>) <br>
-[![Tweeter](https://circleci.com/gh/TannerYork/Tweeter.svg?style=shield)](<LINK>)
+[![Tweeter](https://circleci.com/gh/TannerYork/Tweeter.svg?style=shield)](<LINK>) <br>
+![Tweeter Web](https://img.shields.io/website?down_color=red&down_message=offline&up_color=light%20green&up_message=online&url=https%3A%2F%2Ftweeter-v2.herokuapp.com%2F)
 
 # Tweeter
 
