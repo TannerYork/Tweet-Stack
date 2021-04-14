@@ -20,11 +20,6 @@ Tweeter is a web application for interacting with twitter in a more data driven 
 6. Then run `docker-compose exec web python manage.py migrate --noinput` to make django migrations
 7. If that is completed successfully, go to localhost:8000 in your browser of choice (I have been using chrome)
 
-## Usage
-
-### Live Application
-Go to the app [here](https://tweeter-v2.herokuapp.com/)
-
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. 
 You can also create your own generator, if there's space left. Just go to the websitre and find the create generator tab.
